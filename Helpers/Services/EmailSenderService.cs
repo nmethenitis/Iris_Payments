@@ -31,9 +31,11 @@ public class EmailSenderService : IEmailSender {
                 foreach (string recipient in recipients) {
                     message.To.Add(new MailAddress(recipient));
                 }
-                List<string> recipientsCC = cc.Split(';').ToList();
-                foreach (string recipient in recipientsCC) {
-                    message.CC.Add(new MailAddress(recipient));
+                if(cc != null) {
+                    List<string> recipientsCC = cc.Split(';').ToList();
+                    foreach(string recipient in recipientsCC) {
+                        message.CC.Add(new MailAddress(recipient));
+                    }
                 }
                 await smtp.SendMailAsync(message);
             }

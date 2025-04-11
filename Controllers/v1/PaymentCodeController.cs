@@ -35,7 +35,7 @@ public class PaymentCodeController : ControllerBase {
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CheckPaymentCodeResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> Check([FromBody] CheckPaymentCodeRequest request) {
-        var result = _paymentCodeHelperService.CheckPaymentCode(request);
+        var result = await _paymentCodeHelperService.CheckPaymentCode(request);
         if (result == null) {
             return NotFound();
         }
@@ -48,7 +48,7 @@ public class PaymentCodeController : ControllerBase {
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CheckPaymentCodeResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> Info([FromRoute] string code) {
-        var result = _paymentCodeHelperService.GetPaymentCode(code);
+        var result = await _paymentCodeHelperService.GetPaymentCode(code);
         if ( result == null) {
             return NotFound();
         }
@@ -61,7 +61,7 @@ public class PaymentCodeController : ControllerBase {
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HistoryPaymentCodeResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> History([FromRoute] string code) {
-        var result = _paymentLogsHelperService.GetLogHistory(code);
+        var result = await _paymentLogsHelperService.GetLogHistory(code);
         if (result == null) {
             return NotFound();
         }
@@ -74,7 +74,7 @@ public class PaymentCodeController : ControllerBase {
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaymentResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> PaymentRequest([FromBody] PaymentRequest request) {
-        var result = _paymentCodeHelperService.PaymentRequest(request);
+        var result = await _paymentCodeHelperService.PaymentRequest(request);
         return Ok(result);
     }
 }

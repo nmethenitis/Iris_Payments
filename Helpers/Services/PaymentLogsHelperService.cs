@@ -64,10 +64,11 @@ public class PaymentLogsHelperService : IPaymentLogsHelper {
         return log;
     }
 
-    public async Task<PaymentLogs> UpdateLog(PaymentLogs log, IncomingPaymentsStatus incomingPaymentsStatus, string rejectionReason) {
+    public async Task<PaymentLogs> UpdateLog(PaymentLogs log, IncomingPaymentsStatus incomingPaymentsStatus, string rejectionReason, bool isPaid = false) {
         log.Status = incomingPaymentsStatus.status;
         log.RejectionCode = incomingPaymentsStatus.rejectionCode;
         log.RejectionReason = rejectionReason;
+        log.IsPaid = isPaid;
         return log;
     }
 }

@@ -110,10 +110,8 @@ public class PaymentHelperService : IPaymentHelper {
             rejectionReason = Constants.PaymentRejectionReason.RFNotFound;
             _logger.LogWarning(String.Format("RF Identity {0} rejected due to not found.", RF));
         }
-        if (!String.IsNullOrEmpty(rejectionCode)) {
-            incomingPaymentsStatus = CreatePaymentResponse(RID, false, rejectionCode);
-        }
-        paymentLogs = await _paymentLogsHelperService.UpdateLog(paymentLogs, incomingPaymentsStatus, rejectionReason);
+        incomingPaymentsStatus = CreatePaymentResponse(RID, String.IsNullOrEmpty(rejectionCode), rejectionCode);
+        paymentLogs = await _paymentLogsHelperService.UpdateLog(paymentLogs, incomingPaymentsStatus, rejectionReason, String.IsNullOrEmpty(rejectionCode));
         await SendNotification(paymentLogs, paymentCode);
         _paymentLogsService.Add(paymentLogs);
         return incomingPaymentsStatus;
