@@ -1,6 +1,6 @@
 @IrisPayments_HostAddress = http://localhost:5071
 
-GET {{IrisPayments_HostAddress}}/weatherforecast/
+GET {{IrisPayments_HostAddress}}/swagger/
 Accept: application/json
 
 ###
