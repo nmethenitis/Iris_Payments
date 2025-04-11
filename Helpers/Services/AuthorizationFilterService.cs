@@ -26,9 +26,9 @@ public class AuthorizationFilterService : IAuthorizationFilter {
                 var encodedUsernamePassword = authHeader.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries)[1]?.Trim();
                 authorized = _basicAuthenticator.IsValid(encodedUsernamePassword);
             }
-            if (!authorized) {
-                context.Result = new UnauthorizedResult();
-            }
+        }
+        if(!authorized) {
+            context.Result = new UnauthorizedResult();
         }
     }
 }
