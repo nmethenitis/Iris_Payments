@@ -3,11 +3,19 @@ using IrisPayments.Models;
 using Microsoft.AspNetCore.Mvc;
 using Payments.Helpers;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
 
 namespace IrisPayments.Controllers.v1;
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
+[Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
+[ProducesErrorResponseType(typeof(ProblemDetails))]
+[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+[ProducesResponseType(StatusCodes.Status403Forbidden)]
+[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 public class PaymentCodeController : ControllerBase {
     private readonly IPaymentCodeHelper _paymentCodeHelperService;
     private readonly IPaymentLogsHelper _paymentLogsHelperService;

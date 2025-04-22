@@ -16,7 +16,7 @@ public class SwaggerHeaderFilter : IOperationFilter {
             operation.Parameters = new List<OpenApiParameter>();
         var actionName = (context.ApiDescription.ActionDescriptor as ControllerActionDescriptor)?.ActionName;
 
-        if(!string.IsNullOrWhiteSpace(actionName) && !actionName.Equals("PaymentRequest")) {
+        /*if(!string.IsNullOrWhiteSpace(actionName) && !actionName.Equals("PaymentRequest")) {
             operation.Parameters.Add(new OpenApiParameter {
                 Name = _config.GetValue<string>("AppSettings:AppApiKeyHeaderName"),
                 In = ParameterLocation.Header,
@@ -25,6 +25,6 @@ public class SwaggerHeaderFilter : IOperationFilter {
                     Type = "string"
                 }
             });
-        }
+        }*/
     }
 }

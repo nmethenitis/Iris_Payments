@@ -14,11 +14,9 @@ public class BasicAuthenticatorService : IBasicAuthenticator {
     public bool IsValid(string encodedUsernamePassword) {
         var decodedUsernamePassword = Encoding.UTF8.GetString(Convert.FromBase64String(encodedUsernamePassword));
         var username = decodedUsernamePassword.Split(':', 2)[0];
-        var password = this.Encode256(decodedUsernamePassword.Split(':', 2)[1]);
-        if(username == null || password == null) {
-            if(username == _config.GetValue<string>("AppSettings:Dias:Username") && password == _config.GetValue<string>("AppSettings:Dias:Password")) {
-                return true;
-            }
+        var password = decodedUsernamePassword.Split(':', 2)[1];
+        if(username != null && password != null) {
+            return (username == _config.GetValue<string>("AppSettings:Dias:Username") && password == _config.GetValue<string>("AppSettings:Dias:Password"));
         }
         return false;
     }
