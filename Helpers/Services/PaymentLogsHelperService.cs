@@ -16,7 +16,7 @@ public class PaymentLogsHelperService : IPaymentLogsHelper {
     public async Task<HistoryPaymentCodeResponse> GetLogHistory(string code) {
         try {
             var paymentlogs = await _paymentLogsService.GetAll(code);
-            if (paymentlogs.Count > 0) {
+            if(paymentlogs.Count > 0) {
                 return new HistoryPaymentCodeResponse() {
                     Success = true,
                     PaymentLogs = paymentlogs
@@ -24,7 +24,7 @@ public class PaymentLogsHelperService : IPaymentLogsHelper {
             } else {
                 return null;
             }
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             _logger.LogError(ex, ex.Message);
             throw;
         }
@@ -32,7 +32,7 @@ public class PaymentLogsHelperService : IPaymentLogsHelper {
 
     public async Task<PaymentLogs> CreateLog(PaymentCode paymentCode, Incomingpayments incomingPayment) {
         PaymentLogs log = new PaymentLogs();
-        if (paymentCode != null) {
+        if(paymentCode != null) {
             log.OrderId = paymentCode.OrderID;
             log.CustomerId = paymentCode.CustomerID;
         }

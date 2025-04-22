@@ -15,7 +15,7 @@ public class PaymentCodeService : IPaymentCode {
         try {
             _context.PaymentCode.Add(paymentCode);
             await _context.SaveChangesAsync();
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             _logger.LogError(ex, ex.Message);
             throw;
         }
@@ -27,14 +27,14 @@ public class PaymentCodeService : IPaymentCode {
         try {
             await _context.SaveChangesAsync();
             return true;
-        } catch (DbUpdateConcurrencyException e) {
-            if (!await Exists(paymentCode.Id)) {
+        } catch(DbUpdateConcurrencyException e) {
+            if(!await Exists(paymentCode.Id)) {
                 return false;
             } else {
                 _logger.LogError(e, e.Message);
                 throw;
             }
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             _logger.LogError(ex, ex.Message);
             throw;
         }
@@ -42,7 +42,7 @@ public class PaymentCodeService : IPaymentCode {
 
     public async Task<bool> Delete(Guid? id) {
         var paymentIdentity = await _context.PaymentCode.FindAsync(id);
-        if (paymentIdentity == null) {
+        if(paymentIdentity == null) {
             return false;
         }
         _context.PaymentCode.Remove(paymentIdentity);

@@ -1,5 +1,4 @@
-﻿using IrisPayments.Data.Models;
-using IrisPayments.Models;
+﻿using IrisPayments.Models;
 
 namespace IrisPayments.Helpers.Interfaces;
 public interface IPaymentCodeHelper {

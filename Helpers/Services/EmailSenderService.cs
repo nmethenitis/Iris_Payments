@@ -13,7 +13,7 @@ public class EmailSenderService : IEmailSender {
     }
     public async Task SendEmailAsync(string to, string cc, string subject, string body) {
         try {
-            using (var smtp = new SmtpClient()) {
+            using(var smtp = new SmtpClient()) {
                 var credential = new NetworkCredential {
                     UserName = _config.GetValue<string>("AppSettings:SMTPSettings:Username"),
                     Password = _config.GetValue<string>("AppSettings:SMTPSettings:Password")
@@ -28,7 +28,7 @@ public class EmailSenderService : IEmailSender {
                 };
                 string recipientEmail = !String.IsNullOrEmpty(to) ? to : _config.GetValue<string>("AppSettings:SMTPSettings:DefaultRecipient");
                 List<string> recipients = recipientEmail.Split(';').ToList();
-                foreach (string recipient in recipients) {
+                foreach(string recipient in recipients) {
                     message.To.Add(new MailAddress(recipient));
                 }
                 if(cc != null) {
@@ -39,6 +39,6 @@ public class EmailSenderService : IEmailSender {
                 }
                 await smtp.SendMailAsync(message);
             }
-        } catch (Exception ex) { }
+        } catch(Exception ex) { }
     }
 }

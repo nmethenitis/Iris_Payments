@@ -1,20 +1,15 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace IrisPayments.Migrations
-{
+namespace IrisPayments.Migrations {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
-    {
+    public partial class InitialCreate : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
                 name: "PaymentCode",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderID = table.Column<long>(type: "bigint", nullable: true),
@@ -24,15 +19,13 @@ namespace IrisPayments.Migrations
                     CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false),
                     ChangedAt = table.Column<DateTime>(type: "DateTime", nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_PaymentCode", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PaymentLogs",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderId = table.Column<long>(type: "bigint", nullable: true),
                     CustomerId = table.Column<long>(type: "bigint", nullable: true),
@@ -53,15 +46,13 @@ namespace IrisPayments.Migrations
                     RejectionReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsPaid = table.Column<bool>(type: "bit", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_PaymentLogs", x => x.Id);
                 });
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "PaymentCode");
 

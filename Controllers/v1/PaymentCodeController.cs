@@ -1,6 +1,4 @@
-﻿using IrisPayments.Data.Interfaces;
-using IrisPayments.Data.Models;
-using IrisPayments.Helpers.Interfaces;
+﻿using IrisPayments.Helpers.Interfaces;
 using IrisPayments.Models;
 using Microsoft.AspNetCore.Mvc;
 using Payments.Helpers;
@@ -36,7 +34,7 @@ public class PaymentCodeController : ControllerBase {
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> Check([FromBody] CheckPaymentCodeRequest request) {
         var result = await _paymentCodeHelperService.CheckPaymentCode(request);
-        if (result == null) {
+        if(result == null) {
             return NotFound();
         }
         return Ok(result);
@@ -49,7 +47,7 @@ public class PaymentCodeController : ControllerBase {
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> Info([FromRoute] string code) {
         var result = await _paymentCodeHelperService.GetPaymentCode(code);
-        if ( result == null) {
+        if(result == null) {
             return NotFound();
         }
         return Ok(result);
@@ -62,7 +60,7 @@ public class PaymentCodeController : ControllerBase {
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     public async Task<IActionResult> History([FromRoute] string code) {
         var result = await _paymentLogsHelperService.GetLogHistory(code);
-        if (result == null) {
+        if(result == null) {
             return NotFound();
         }
         return Ok(result);

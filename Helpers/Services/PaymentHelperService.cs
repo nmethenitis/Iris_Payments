@@ -29,7 +29,7 @@ public class PaymentHelperService : IPaymentHelper {
     }
 
     public bool Check(PaymentCode paymentIdentity, string amount) {
-        if (paymentIdentity != null) {
+        if(paymentIdentity != null) {
             amount = amount.Replace(",", ".");
             double diasPrice = 0;
             double.TryParse(amount, NumberStyles.Any, CultureInfo.InvariantCulture, out diasPrice);
@@ -61,7 +61,7 @@ public class PaymentHelperService : IPaymentHelper {
             String subject = String.Format($"IRIS payment {paymentLogs.Status}");
             StringBuilder bodySB = new StringBuilder();
             bodySB.Append("<table>");
-            if (!paymentLogs.IsPaid) {
+            if(!paymentLogs.IsPaid) {
                 bodySB.Append(String.Format("<tr><td>Reason</td><td><b>{0}</b></td></tr>", paymentLogs.RejectionReason));
             }
             bodySB.Append(String.Format("<tr><td>Κωδικός Οργανισμού</td><td>{0}</td></tr>", paymentLogs.OrganizationId));
@@ -70,14 +70,14 @@ public class PaymentHelperService : IPaymentHelper {
             bodySB.Append(String.Format("<tr><td>Transaction ID DIAS</td><td>{0}</td></tr>", paymentLogs.TransactionId));
             bodySB.Append(String.Format("<tr><td>Τράπεζα Πελάτη</td><td>{0}</td></tr>", paymentLogs.DebtorBankBIC));
             bodySB.Append(String.Format("<tr><td>Ποσό DIAS</td><td>{0}</td></tr>", paymentLogs.PaidAmount));
-            if (paymentCode != null) {
-                if (paymentCode.OrderAmount != null) {
+            if(paymentCode != null) {
+                if(paymentCode.OrderAmount != null) {
                     bodySB.Append(String.Format("<tr><td>Ποσό δημιουργίας RF</td><td>{0}</td></tr>", paymentCode.OrderAmount));
                 }
             }
             bodySB.Append("</table>");
             await _emailSenderService.SendEmailAsync(to, cc, subject, bodySB.ToString());
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             _logger.LogError(ex, ex.Message);
         }
     }
@@ -92,13 +92,13 @@ public class PaymentHelperService : IPaymentHelper {
         var paymentCode = await _paymentCodeService.Get(RF);
         var paymentLogs = await _paymentLogsHelperService.CreateLog(paymentCode, incomingPayment);
         var rejectionCode = String.Empty;
-        if (paymentCode != null) {
-            if (await _paymentLogsService.Exists(paymentCode.Code, RID) || await _paymentLogsService.ExistsPaid(paymentCode.Code)) {
+        if(paymentCode != null) {
+            if(await _paymentLogsService.Exists(paymentCode.Code, RID) || await _paymentLogsService.ExistsPaid(paymentCode.Code)) {
                 //TODO Response decline duplication
                 rejectionCode = Constants.PaymentRejectionCode.Duplication;
                 rejectionReason = Constants.PaymentRejectionReason.Duplication;
                 _logger.LogWarning(String.Format("RF Identity {0} rejected due to duplication.", RF));
-            } else if (!Check(paymentCode, amount)) {
+            } else if(!Check(paymentCode, amount)) {
                 //TODO Response decline amount mismatch
                 rejectionCode = Constants.PaymentRejectionCode.TooLowAmount;
                 rejectionReason = Constants.PaymentRejectionReason.Amount;

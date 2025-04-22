@@ -1,10 +1,7 @@
-﻿using Azure.Core;
-using IrisPayments.Data.Interfaces;
+﻿using IrisPayments.Data.Interfaces;
 using IrisPayments.Data.Models;
 using IrisPayments.Helpers.Interfaces;
 using IrisPayments.Models;
-using Microsoft.Identity.Client;
-using System.Globalization;
 using System.Numerics;
 using System.Text;
 
@@ -25,7 +22,7 @@ public class PaymentCodeHelperService : IPaymentCodeHelper {
     public async Task<CheckPaymentCodeResponse> GetPaymentCode(string code) {
         try {
             var paymentCode = await _paymentCodeService.Get(code);
-            if (paymentCode != null) {
+            if(paymentCode != null) {
                 return new CheckPaymentCodeResponse() {
                     Success = true,
                     PaymentCode = paymentCode
@@ -33,7 +30,7 @@ public class PaymentCodeHelperService : IPaymentCodeHelper {
             } else {
                 return null;
             }
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             _logger.LogError(ex, ex.Message);
             throw;
         }
@@ -42,8 +39,8 @@ public class PaymentCodeHelperService : IPaymentCodeHelper {
     public async Task<CheckPaymentCodeResponse> CheckPaymentCode(CheckPaymentCodeRequest request) {
         try {
             var paymentCode = await _paymentCodeService.Get(request.PaymentCode);
-            if (paymentCode != null) {
-                if (_paymentHelperService.Check(paymentCode, request.Amount)) {
+            if(paymentCode != null) {
+                if(_paymentHelperService.Check(paymentCode, request.Amount)) {
                     return new CheckPaymentCodeResponse() {
                         Success = true,
                         PaymentCode = paymentCode
@@ -60,7 +57,7 @@ public class PaymentCodeHelperService : IPaymentCodeHelper {
             } else {
                 return null;
             }
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             _logger.LogError(ex, ex.Message);
             throw;
         }
@@ -70,7 +67,7 @@ public class PaymentCodeHelperService : IPaymentCodeHelper {
         PaymentCode paymentCode = await _paymentCodeService.GetByOrderID(request.OrderId);
         try {
             bool newPaymentID = false;
-            if (paymentCode == null) {
+            if(paymentCode == null) {
                 paymentCode = new PaymentCode();
                 paymentCode.OrderID = request.OrderId;
                 paymentCode.CustomerID = request.CustomerId;
@@ -78,14 +75,14 @@ public class PaymentCodeHelperService : IPaymentCodeHelper {
             }
             paymentCode.OrderAmount = request.Amount;
             paymentCode.Code = CreatePaymentCode(paymentCode.CustomerID, paymentCode.OrderAmount);
-            if (newPaymentID) {
+            if(newPaymentID) {
                 paymentCode.CreatedAt = DateTime.Now;
                 await _paymentCodeService.Add(paymentCode);
             } else {
                 paymentCode.ChangedAt = DateTime.Now;
                 await _paymentCodeService.Update(paymentCode);
             }
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             _logger.LogError(ex, ex.Message);
             throw;
         }
@@ -99,12 +96,12 @@ public class PaymentCodeHelperService : IPaymentCodeHelper {
         var paymentResponse = _paymentHelperService.InitializeResponse(request);
         try {
             int i = 0;
-            foreach (Incomingpayments incomingPayment in request.IncomingPayments) {
+            foreach(Incomingpayments incomingPayment in request.IncomingPayments) {
                 string orgNumber = incomingPayment.ActorID;
                 paymentResponse.incomingPaymentsStatus[i] = await _paymentHelperService.GetPaymentResponse(incomingPayment);
                 i++;
             }
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             _logger.LogError(ex, ex.Message);
             throw;
         }

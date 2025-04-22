@@ -4,7 +4,6 @@ using IrisPayments.Data.Services;
 using IrisPayments.Helpers.Interfaces;
 using IrisPayments.Helpers.Services;
 using IrisPayments.Helpers.Swagger;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 

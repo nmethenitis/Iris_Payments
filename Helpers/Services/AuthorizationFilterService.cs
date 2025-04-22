@@ -19,10 +19,10 @@ public class AuthorizationFilterService : IAuthorizationFilter {
         string apiKey = context.HttpContext.Request.Headers[_config.GetValue<string>("AppSettings:AppApiKeyHeaderName")];
         string authHeader = context.HttpContext.Request.Headers["Authorization"];
         bool authorized = false;
-        if (apiKey != null) {
+        if(apiKey != null) {
             authorized = _apiKeyValidator.IsValid(apiKey);
-        } else if (authHeader != null) {
-            if (authHeader.StartsWith("Basic ")) {
+        } else if(authHeader != null) {
+            if(authHeader.StartsWith("Basic ")) {
                 var encodedUsernamePassword = authHeader.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries)[1]?.Trim();
                 authorized = _basicAuthenticator.IsValid(encodedUsernamePassword);
             }
